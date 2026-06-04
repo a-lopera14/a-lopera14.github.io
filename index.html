@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Andres Lopera Gracia — Data Analytics graduate specializing in business intelligence, data engineering pipelines, and marketing analytics. Based in Springfield, MO." />
+  <title>Andres Lopera Gracia | Data Analytics Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400;500&family=Lora:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #090f1c;
+      --surface: #111827;
+      --surface2: #1f2937;
+      --border: rgba(201, 168, 76, 0.2);
+      --text: #e8e4dc;
+      --muted: #8e9cae;
+      --accent: #d4af37;
+      --accent-dim: rgba(201, 168, 76, 0.08);
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'Lora', Georgia, serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-size: 40px 40px;
+      background-image:
+        linear-gradient(to right, rgba(201, 168, 76, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(201, 168, 76, 0.02) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── TOP NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 4rem;
+      background: rgba(9, 15, 28, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+    }
+
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s;
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.2s ease;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a.active { color: var(--accent); }
+    .nav-links a.active::after { transform: scaleX(1); }
+
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+      z-index: 101;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--accent);
+      transition: all 0.3s ease;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── MOBILE NAV OVERLAY ── */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 15, 28, 0.98);
+      z-index: 9998;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+
+    .mobile-nav.open { display: flex; }
+
+    .mobile-nav a {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .mobile-nav a:hover,
+    .mobile-nav a.active { color: var(--accent); }
+
+    /* ── PANELS ── */
+    .panel {
+      display: none;
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      animation: panelIn 0.35s ease;
+    }
+    .panel.active { display: block; }
+
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── HERO ── */
+    #panel-home {
+      display: none;
+      min-height: 100vh;
+      align-items: center;
+      padding: 8rem 4rem 5rem;
+    }
+    #panel-home.active {
+      display: flex;
+    }
+
+    .hero-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 5rem;
+      align-items: center;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 6vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-name span { color: var(--accent); display: block; }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      color: #b4c2d3;
+      max-width: 580px;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 3rem;
+    }
+
+    .chip {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.35rem 0.9rem;
+      background: rgba(201, 168, 76, 0.05);
+      text-transform: uppercase;
+    }
+
+    .hero-cta { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+
+    .btn-primary {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: var(--accent);
+      color: #090f1c;
+      padding: 1rem 2.2rem;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.2s ease;
+      display: inline-block;
+    }
+
+    .btn-primary:hover { background: #fff; transform: translateY(-2px); }
+
+    .btn-outline {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: transparent;
+      color: var(--text);
+      padding: 1rem 2.2rem;
+      border: 1px solid rgba(201, 168, 76, 0.4);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-block;
+    }
+
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    .hero-photo-panel { position: relative; justify-self: center; }
+
+    .hero-photo-frame {
+      width: 100%;
+      max-width: 380px;
+      aspect-ratio: 1 / 1;
+      border: 1px solid var(--accent);
+      padding: 15px;
+      position: relative;
+    }
+
+    .hero-photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .hero-photo-frame::before {
+      content: '';
+      position: absolute;
+      top: -10px; left: -10px;
+      width: 40px; height: 40px;
+      border-top: 2px solid var(--accent);
+      border-left: 2px solid var(--accent);
+    }
+
+    .hero-photo-frame::after {
+      content: '';
+      position: absolute;
+      bottom: -10px; right: -10px;
+      width: 40px; height: 40px;
+      border-bottom: 2px solid var(--accent);
+      border-right: 2px solid var(--accent);
+    }
+
+    /* ── SECTION PANELS (non-home) ── */
+    .panel-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 8rem 4rem 5rem;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 4rem;
+    }
+
+    /* ── EXPERIENCE & EDUCATION ── */
+    .exp-list { display: flex; flex-direction: column; }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 3rem;
+      padding: 3rem 0;
+      border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+    }
+
+    .exp-meta { display: flex; flex-direction: column; gap: 0.5rem; }
+
+    .exp-date { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent); }
+    .exp-location { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); }
+    .exp-company { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: var(--text); }
+
+    .exp-role {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-style: italic;
+      margin-bottom: 1rem;
+      color: #cbd5e1;
+    }
+
+    .exp-desc { font-size: 0.95rem; color: #94a3b8; line-height: 1.8; }
+    .exp-desc ul { list-style-type: square; padding-left: 1.2rem; margin-top: 0.5rem; }
+    .exp-desc li { margin-bottom: 0.5rem; }
+    .exp-desc p { margin-bottom: 0.5rem; }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: rgba(17, 24, 39, 0.6);
+      border: 1px solid rgba(201, 168, 76, 0.15);
+      padding: 2.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      background: rgba(17, 24, 39, 0.9);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    }
+
+    .project-tech {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .project-title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem; }
+    .project-desc { font-size: 0.95rem; color: #94a3b8; line-height: 1.7; }
+    .project-chart { margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid rgba(201,168,76,0.1); }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .skill-box {
+      border: 1px solid rgba(201, 168, 76, 0.1);
+      background: rgba(17, 24, 39, 0.4);
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .skill-box:hover {
+      border-color: rgba(201, 168, 76, 0.4);
+      background: rgba(201, 168, 76, 0.04);
+    }
+
+    .skill-category {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+    }
+
+    .skill-title { font-family: var(--font-body); font-size: 1.05rem; font-weight: 600; }
+
+    /* ── LEADERSHIP ── */
+    .lead-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+
+    .lead-card {
+      border-left: 2px solid var(--accent);
+      padding-left: 2rem;
+      transition: all 0.2s;
+    }
+
+    .lead-card:hover { border-left-color: #fff; }
+
+    .lead-title { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; margin-bottom: 0.3rem; }
+
+    .lead-sub { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent); margin-bottom: 1rem; }
+
+    .lead-desc { font-size: 0.95rem; color: #94a3b8; }
+
+    /* ── CERTIFICATIONS & AWARDS ── */
+    .cert-list { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .cert-card {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 2rem;
+      padding: 2rem 2.5rem;
+      background: rgba(17, 24, 39, 0.5);
+      border: 1px solid rgba(201, 168, 76, 0.13);
+      transition: all 0.25s ease;
+    }
+
+    .cert-card:hover {
+      border-color: var(--accent);
+      background: rgba(17, 24, 39, 0.85);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.35);
+    }
+
+    .cert-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .cert-icon.github  { background: #161b22; border: 1px solid rgba(255,255,255,0.1); }
+    .cert-icon.ms      { background: #f3f3f3; }
+    .cert-icon.mentor  { background: #1a1a2e; border: 1px solid rgba(201,168,76,0.2); }
+
+    .cert-issuer {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+
+    .cert-name {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .cert-meta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .cert-link {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(201,168,76,0.35);
+      padding: 0.5rem 1.1rem;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .cert-link:hover {
+      background: rgba(201,168,76,0.08);
+      border-color: var(--accent);
+    }
+
+    /* ── HIRE ME ── */
+    .hire-text { font-size: 1.1rem; color: #cbd5e1; line-height: 1.8; max-width: 700px; margin-bottom: 3rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 3rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid rgba(201, 168, 76, 0.1);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 968px) {
+      nav { padding: 1.5rem 2rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      #panel-home { padding: 8rem 2rem 4rem; }
+      .hero-grid { grid-template-columns: 1fr; gap: 4rem; }
+      .hero-photo-panel { order: -1; }
+      .panel-inner { padding: 6rem 2rem 4rem; }
+      .exp-item { grid-template-columns: 1fr; gap: 1rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .lead-grid { grid-template-columns: 1fr; gap: 3rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .cert-card {
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto;
+      }
+      .cert-body { min-width: 0; overflow-wrap: break-word; word-break: break-word; }
+      .cert-name { overflow-wrap: break-word; word-break: break-word; }
+      .cert-meta { overflow-wrap: break-word; word-break: break-word; }
+      .cert-card .cert-link {
+        grid-column: 1 / -1;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-name { font-size: 2.8rem; }
+      .hero-cta { flex-direction: column; }
+      .btn-primary, .btn-outline { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAV -->
+  <nav>
+    <a class="nav-logo" href="#home">A.L.G.</a>
+    <ul class="nav-links">
+      <li><a href="#home"          data-panel="home"          class="active">Home</a></li>
+      <li><a href="#experience"    data-panel="experience">Experience</a></li>
+      <li><a href="#education"     data-panel="education">Education</a></li>
+      <li><a href="#projects"      data-panel="projects">Projects</a></li>
+      <li><a href="#skills"        data-panel="skills">Skills &amp; Certs</a></li>
+      <li><a href="#leadership"    data-panel="leadership">Leadership</a></li>
+      <li><a href="#awards"        data-panel="awards">Awards</a></li>
+      <li><a href="#hire-me"       data-panel="hire-me">Hire Me!</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger-btn" aria-label="Open navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE NAV OVERLAY -->
+  <div class="mobile-nav" id="mobile-nav" role="dialog" aria-label="Navigation menu">
+    <a href="#home"          data-panel="home">Home</a>
+    <a href="#experience"    data-panel="experience">Experience</a>
+    <a href="#education"     data-panel="education">Education</a>
+    <a href="#projects"      data-panel="projects">Projects</a>
+    <a href="#skills"        data-panel="skills">Skills &amp; Certs</a>
+    <a href="#leadership"    data-panel="leadership">Leadership</a>
+    <a href="#awards"        data-panel="awards">Awards</a>
+    <a href="#hire-me"       data-panel="hire-me">Hire Me!</a>
+  </div>
+
+  <!-- HOME PANEL -->
+  <div id="panel-home" class="panel active">
+    <div class="hero-grid">
+      <div>
+        <p class="hero-eyebrow">Data Analytics · Business Intelligence · Engineering</p>
+        <h1 class="hero-name">Andres<br /><span>Lopera Gracia</span></h1>
+        <p class="hero-desc">
+          Data analytics graduate bridging technical rigor with data engineering pipeline development, full-funnel marketing tracking infrastructures, and custom business intelligence architectures.
+        </p>
+        <div class="hero-chips">
+          <span class="chip">SQL</span>
+          <span class="chip">Python</span>
+          <span class="chip">R</span>
+          <span class="chip">Power BI</span>
+          <span class="chip">Microsoft Fabric</span>
+          <span class="chip">GTM &amp; GA4</span>
+        </div>
+        <div class="hero-cta">
+          <a class="btn-primary" href="#hire-me" data-panel="hire-me">Hire Me!</a>
+          <a class="btn-outline" href="LoperaGracia_Andres_Resume.pdf" download>Download Resume</a>
+        </div>
+      </div>
+      <div class="hero-photo-panel">
+        <div class="hero-photo-frame">
+          <img src="headshot.jpg" alt="Andres Lopera Gracia, Data Analytics professional based in Springfield, MO" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE PANEL -->
+  <div id="panel-experience" class="panel">
+    <div class="panel-inner">
+      <p class="section-label">01 // Professional Timeline</p>
+      <h2 class="section-title">Experience</h2>
+      <div class="exp-list">
+
+        <div class="exp-item">
+          <div class="exp-meta">
+            <span class="exp-date">Feb 2026 — May 2026</span>
+            <span class="exp-company">Nightly</span>
+            <span class="exp-location">Springfield, MO</span>
+          </div>
+          <div>
+            <h3 class="exp-role">Data Intern</h3>
+            <div class="exp-desc">
+              <ul>
+                <li>Built end-to-end conversion tracking infrastructure using Google Tag Manager and GA4, enabling attribution of qualified property owner leads through a full-funnel search campaign with custom keyword architecture and negative keyword strategy.</li>
+                <li>Engineered automated lead routing and follow-up workflows across GoHighLevel and Vintory via webhook integrations, incorporating A2P 10DLC SMS compliance and Meta Ads pipeline logic to reduce manual handoff time.</li>
+                <li>Developed a React and Notion API-integrated team performance dashboard that replaced a manual tracking process, surfacing real-time progress on quarterly goals across 6 coworkers.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-meta">
+            <span class="exp-date">Jun 2025 — Aug 2025</span>
+            <span class="exp-company">CoxHealth</span>
+            <span class="exp-location">Springfield, MO</span>
+          </div>
+          <div>
+            <h3 class="exp-role">Intern, Enterprise Data &amp; Analytics</h3>
+            <div class="exp-desc">
+              <ul>
+                <li>Developed a self-service Power BI model by integrating SQL queries, Microsoft Fabric, and DAX, reducing ad-hoc reporting requests to the data team.</li>
+                <li>Queried complex datasets in Microsoft Fabric's Lakehouse using SQL, leveraging Bronze/Silver/Gold medallion layers and ERD schemas to structure Star schema models with optimized joins and validated relationships.</li>
+                <li>Leveraged AI tools to expedite DAX measure development and optimize model performance.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- EDUCATION PANEL -->
+  <div id="panel-education" class="panel">
+    <div class="panel-inner">
+      <p class="section-label">02 // Academic Background</p>
+      <h2 class="section-title">Education</h2>
+      <div class="exp-list">
+
+        <div class="exp-item">
+          <div class="exp-meta">
+            <span class="exp-date">Aug 2024 — May 2026</span>
+            <span class="exp-company">Missouri State University</span>
+            <span class="exp-location">Springfield, MO</span>
+          </div>
+          <div>
+            <h3 class="exp-role">Bachelor of Science in Data Analytics</h3>
+            <div class="exp-desc">
+              <p>GPA: 3.93 / 4.0 &nbsp;·&nbsp; Dean's List — Fall 2024, Spring 2025, Fall 2025</p>
+              <ul>
+                <li>Relevant Coursework: Machine Learning, Data Mining, Advanced Data Management &amp; Integration</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-meta">
+            <span class="exp-date">Aug 2022 — May 2024</span>
+            <span class="exp-company">North Arkansas College</span>
+            <span class="exp-location">Harrison, AR</span>
+          </div>
+          <div>
+            <h3 class="exp-role">Associate of Science in Business</h3>
+            <div class="exp-desc">
+              <p>GPA: 4.0 / 4.0</p>
+              <ul>
+                <li>NJCAA All-Academic First Team — 2023–24</li>
+                <li>Men's Basketball Student-Athlete, NJCAA Region 2 Division II</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECTS PANEL -->
+  <div id="panel-projects" class="panel">
+    <div class="panel-inner">
+      <p class="section-label">03 // Selected Deployments</p>
+      <h2 class="section-title">Projects</h2>
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <p class="project-tech">R · Tidyverse · Python · NumPy</p>
+          <h3 class="project-title">Business Analytics Case Competition</h3>
+          <p class="project-desc">Built an ongoing case study through the Association of Business Information Technology Students (A-BITS). Generated descriptive statistics and visualizations — box plots, histograms, and summary tables — to uncover relationships between economic variables and the Student Aid Index outcome.</p>
+          <div class="project-chart">
+            <svg viewBox="0 0 220 58" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:100%;display:block;">
+              <line x1="18" y1="50" x2="210" y2="50" stroke="rgba(201,168,76,0.25)" stroke-width="0.8"/>
+              <rect x="22"  y="44" width="22" height="6"  fill="rgba(212,175,55,0.18)" stroke="rgba(212,175,55,0.4)" stroke-width="0.5"/>
+              <rect x="47"  y="36" width="22" height="14" fill="rgba(212,175,55,0.24)" stroke="rgba(212,175,55,0.4)" stroke-width="0.5"/>
+              <rect x="72"  y="24" width="22" height="26" fill="rgba(212,175,55,0.33)" stroke="rgba(212,175,55,0.4)" stroke-width="0.5"/>
+              <rect x="97"  y="14" width="22" height="36" fill="rgba(212,175,55,0.45)" stroke="rgba(212,175,55,0.5)" stroke-width="0.5"/>
+              <rect x="122" y="24" width="22" height="26" fill="rgba(212,175,55,0.33)" stroke="rgba(212,175,55,0.4)" stroke-width="0.5"/>
+              <rect x="147" y="36" width="22" height="14" fill="rgba(212,175,55,0.24)" stroke="rgba(212,175,55,0.4)" stroke-width="0.5"/>
+              <rect x="172" y="44" width="22" height="6"  fill="rgba(212,175,55,0.18)" stroke="rgba(212,175,55,0.4)" stroke-width="0.5"/>
+              <text x="18" y="57" font-family="DM Mono,monospace" font-size="7" fill="rgba(201,168,76,0.45)">SAI Score Distribution</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <p class="project-tech">Python · Pandas · NumPy · Plotly</p>
+          <h3 class="project-title">NBA Schedule Difficulty Analysis</h3>
+          <p class="project-desc">Designed an analytics framework to measure how schedule density, travel, and back-to-backs influence win-loss outcomes across 30 NBA teams. Built interactive dashboards visualizing competitive imbalances using the Oklahoma City Thunder as a core case study.</p>
+          <div class="project-chart">
+            <svg viewBox="0 0 220 58" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:100%;display:block;">
+              <line x1="18" y1="50" x2="210" y2="50" stroke="rgba(201,168,76,0.25)" stroke-width="0.8"/>
+              <rect x="22" y="6"  width="172" height="7" fill="rgba(212,175,55,0.55)" rx="1"/>
+              <text x="197" y="13" font-family="DM Mono,monospace" font-size="6" fill="#d4af37">OKC</text>
+              <rect x="22" y="16" width="130" height="7" fill="rgba(212,175,55,0.22)" rx="1"/>
+              <rect x="22" y="26" width="148" height="7" fill="rgba(212,175,55,0.26)" rx="1"/>
+              <rect x="22" y="36" width="110" height="7" fill="rgba(212,175,55,0.20)" rx="1"/>
+              <rect x="22" y="46" width="118" height="7" fill="rgba(212,175,55,0.22)" rx="1"/>
+              <text x="18" y="57" font-family="DM Mono,monospace" font-size="7" fill="rgba(201,168,76,0.45)">Schedule Difficulty Score</text>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILLS & CERTS PANEL -->
+  <div id="panel-skills" class="panel">
+    <div class="panel-inner">
+      <p class="section-label">04 // Skills &amp; Certifications</p>
+      <h2 class="section-title">Skills &amp; Certs</h2>
+
+      <div class="skills-grid">
+        <div class="skill-box"><p class="skill-category">Languages</p><p class="skill-title">SQL</p></div>
+        <div class="skill-box"><p class="skill-category">Languages</p><p class="skill-title">Python</p></div>
+        <div class="skill-box"><p class="skill-category">Languages</p><p class="skill-title">R</p></div>
+        <div class="skill-box"><p class="skill-category">Languages</p><p class="skill-title">DAX</p></div>
+        <div class="skill-box"><p class="skill-category">Data &amp; Cloud</p><p class="skill-title">Microsoft Fabric</p></div>
+        <div class="skill-box"><p class="skill-category">Data &amp; Cloud</p><p class="skill-title">Apache Spark</p></div>
+        <div class="skill-box"><p class="skill-category">Data &amp; Cloud</p><p class="skill-title">GTM &amp; GA4</p></div>
+        <div class="skill-box"><p class="skill-category">Analytics</p><p class="skill-title">Scikit-learn</p></div>
+        <div class="skill-box"><p class="skill-category">Analytics</p><p class="skill-title">Pandas / NumPy</p></div>
+        <div class="skill-box"><p class="skill-category">BI Systems</p><p class="skill-title">Power BI</p></div>
+        <div class="skill-box"><p class="skill-category">BI Systems</p><p class="skill-title">Tabular Editor</p></div>
+        <div class="skill-box"><p class="skill-category">Frameworks</p><p class="skill-title">React</p></div>
+      </div>
+
+      <p class="section-label" style="margin-top:4rem;">Certifications</p>
+      <div class="cert-list" style="margin-top:1rem;">
+
+        <div class="cert-card">
+          <div class="cert-icon github">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577v-2.165c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <p class="cert-issuer">GitHub</p>
+            <p class="cert-name">Career Essentials in GitHub Copilot Professional Certificate</p>
+            <p class="cert-meta">Issued Oct 2025</p>
+          </div>
+          <a class="cert-link" href="https://www.linkedin.com/learning/certificates/abd889ebd5358967e4ee1d02c6fe56ceee89fbad24bcfbfca888161429a05762?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3BJatf6FKbS7C%2Frqm1dV%2BvqA%3D%3D&accountId=74713793&u=74713793&success=true&authUUID=nvyamV3vSROr2XhV4qABog%3D%3D" target="_blank" rel="noopener noreferrer">View Credential ↗</a>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-icon ms">
+            <svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path fill="#f25022" d="M0 0h11.5v11.5H0z"/>
+              <path fill="#7fba00" d="M12.5 0H24v11.5H12.5z"/>
+              <path fill="#00a4ef" d="M0 12.5h11.5V24H0z"/>
+              <path fill="#ffb900" d="M12.5 12.5H24V24H12.5z"/>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <p class="cert-issuer">Microsoft · LinkedIn</p>
+            <p class="cert-name">Career Essentials in Data Analysis by Microsoft and LinkedIn</p>
+            <p class="cert-meta">Issued Jan 2025 &nbsp;·&nbsp; ID: 7cf0b241a66742c9c19a943f6d1b2a54ca961c32e58fa904e098f1706060ea48</p>
+          </div>
+          <a class="cert-link" href="https://www.linkedin.com/learning/certificates/abd889ebd5358967e4ee1d02c6fe56ceee89fbad24bcfbfca888161429a05762?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3BJatf6FKbS7C%2Frqm1dV%2BvqA%3D%3D&accountId=74713793&u=74713793&success=true&authUUID=nvyamV3vSROr2XhV4qABog%3D%3D" target="_blank" rel="noopener noreferrer">View Credential ↗</a>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-icon mentor">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="12" cy="8" r="4" fill="#d4af37"/>
+              <path d="M4 20c0-4.418 3.582-8 8-8s8 3.582 8 8" stroke="#d4af37" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <p class="cert-issuer">Mentor Collective</p>
+            <p class="cert-name">Student Success Mentor Training</p>
+            <p class="cert-meta">Issued Jul 2025 &nbsp;·&nbsp; ID: sv7bhpekcn</p>
+          </div>
+          <a class="cert-link" href="https://learning.mentorcollective.org/certificates/sv7bhpekcn" target="_blank" rel="noopener noreferrer">View Credential ↗</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- LEADERSHIP PANEL -->
+  <div id="panel-leadership" class="panel">
+    <div class="panel-inner">
+      <p class="section-label">05 // Leadership &amp; Profile</p>
+      <h2 class="section-title">Leadership Experience</h2>
+      <div class="lead-grid">
+
+        <div class="lead-card">
+          <h3 class="lead-title">Student Career Ambassador</h3>
+          <p class="lead-sub">MSU Career Center // Aug 2025 — Dec 2025</p>
+          <p class="lead-desc">Strengthened campus career readiness by delivering personalized technical feedback on 15 student resumes weekly. Guided students via one-on-one strategy consultations, maintaining a verified 4.86/5.0 stakeholder evaluation metric.</p>
+        </div>
+
+        <div class="lead-card">
+          <h3 class="lead-title">Lifeguard</h3>
+          <p class="lead-sub">Oct 2024 — May 2026</p>
+          <p class="lead-desc">Supervised up to 30 swimmers per shift to ensure safety, enforce aquatic center regulations, and respond to emergencies with a record of zero incidents. Analyzed chlorine (2.0–8.0 ppm), alkalinity (80–120 ppm), ORP, and temperature data to ensure safe water quality standards.</p>
+        </div>
+
+        <div class="lead-card">
+          <h3 class="lead-title">Event Assistant Coordinator</h3>
+          <p class="lead-sub">Oct 2024 — Apr 2025</p>
+          <p class="lead-desc">Assisted with the planning of three weekly events with an average of 6,000 attendants per event. Tracked variables involved in customer satisfaction, performance, and coordination.</p>
+        </div>
+
+        <div class="lead-card">
+          <h3 class="lead-title">Men's Basketball Student-Athlete</h3>
+          <p class="lead-sub">North Arkansas College // Aug 2022 — May 2024</p>
+          <p class="lead-desc">Competed actively in NJCAA Region 2 Division II basketball tournament ecosystems. Earned direct recognition as a recipient of the prestigious NJCAA All-Academic First Team award for the 2023–24 season.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- AWARDS PANEL -->
+  <div id="panel-awards" class="panel">
+    <div class="panel-inner">
+      <p class="section-label">06 // Honors &amp; Recognition</p>
+      <h2 class="section-title">Awards</h2>
+      <div class="cert-list">
+
+        <div class="cert-card">
+          <div class="cert-icon" style="background:#1a1a2e; border:1px solid rgba(201,168,76,0.25);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="12" cy="8" r="6" stroke="#d4af37" stroke-width="1.8"/>
+              <path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <p class="cert-issuer">America's Innovate IT Collegiate Conference · Mar 2026</p>
+            <p class="cert-name">First Place — Office Innovators Challenge</p>
+            <p class="cert-meta">Missouri State University · Awarded alongside Purvez Vishnu Gunalan</p>
+          </div>
+          <span class="cert-link" style="cursor:default; opacity:0.45; pointer-events:none;">No Link</span>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-icon" style="background:#1e9191; border:none;">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <polygon points="16,2 17.59,6.32 22.18,6.49 18.57,9.33 19.82,13.76 16,11.2 12.18,13.76 13.43,9.33 9.82,6.49 14.41,6.32" fill="white"/>
+              <path d="M6,30 L6,15 L16,24 L26,15 L26,30 L23,30 L23,20 L16,27 L9,20 L9,30 Z" fill="white"/>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <p class="cert-issuer">Missouri State University · Dec 2025</p>
+            <p class="cert-name">Dean's List — Fall 2025</p>
+            <p class="cert-meta">Outstanding Academic Achievement · GPA 3.5–4.0</p>
+          </div>
+          <a class="cert-link" href="https://meritpages.com/certificates/1EDN3kTM8RTN4QzNzczNxwXO4MjN5kDO/show_public" target="_blank" rel="noopener noreferrer">View Award ↗</a>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-icon" style="background:#1e9191; border:none;">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <polygon points="16,2 17.59,6.32 22.18,6.49 18.57,9.33 19.82,13.76 16,11.2 12.18,13.76 13.43,9.33 9.82,6.49 14.41,6.32" fill="white"/>
+              <path d="M6,30 L6,15 L16,24 L26,15 L26,30 L23,30 L23,20 L16,27 L9,20 L9,30 Z" fill="white"/>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <p class="cert-issuer">Missouri State University · May 2025</p>
+            <p class="cert-name">Dean's List — Spring 2025</p>
+            <p class="cert-meta">Outstanding Academic Achievement · GPA 3.5–4.0</p>
+          </div>
+          <a class="cert-link" href="https://meritpages.com/certificates/2MDNwkTM8NTO0kzNyAjNxwXO4MjN5kDO/show_public" target="_blank" rel="noopener noreferrer">View Award ↗</a>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-icon" style="background:#1e9191; border:none;">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <polygon points="16,2 17.59,6.32 22.18,6.49 18.57,9.33 19.82,13.76 16,11.2 12.18,13.76 13.43,9.33 9.82,6.49 14.41,6.32" fill="white"/>
+              <path d="M6,30 L6,15 L16,24 L26,15 L26,30 L23,30 L23,20 L16,27 L9,20 L9,30 Z" fill="white"/>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <p class="cert-issuer">Missouri State University · Dec 2024</p>
+            <p class="cert-name">Dean's List — Fall 2024</p>
+            <p class="cert-meta">Outstanding Academic Achievement · GPA 3.5–4.0</p>
+          </div>
+          <a class="cert-link" href="https://meritpages.com/certificates/wUzM0gTM8djM5EjM1ITNxwXO4MjN5kDO/show_public" target="_blank" rel="noopener noreferrer">View Award ↗</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- HIRE ME PANEL -->
+  <div id="panel-hire-me" class="panel">
+    <div class="panel-inner">
+      <p class="section-label">07 // Opportunity &amp; Contact</p>
+      <h2 class="section-title">Hire Me!</h2>
+      <p class="hire-text">
+        I am open to full-time roles in data analytics, engineering pipelines, or business intelligence transformations. If you want a dedicated professional who builds robust, scalable data infrastructures, let's talk.
+      </p>
+      <div class="cert-list">
+
+        <div class="cert-card">
+          <div class="cert-icon" style="background:#1a1f2e; border:1px solid rgba(201,168,76,0.2);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="14 2 14 8 20 8" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="16" y1="13" x2="8" y2="13" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round"/>
+              <line x1="16" y1="17" x2="8" y2="17" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round"/>
+              <line x1="10" y1="9" x2="8" y2="9" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <p class="cert-issuer">Resume</p>
+            <p class="cert-name">Andres Lopera Gracia — Data Analytics</p>
+            <p class="cert-meta">PDF · Click to download</p>
+          </div>
+          <a class="cert-link" href="LoperaGracia_Andres_Resume.pdf" download>Download ↓</a>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-icon" style="background:#1a1f2e; border:1px solid rgba(201,168,76,0.2);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="22,6 12,13 2,6" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <p class="cert-issuer">Email</p>
+            <p class="cert-name">afloperagra@gmail.com</p>
+            <p class="cert-meta">Direct inbox · Best for opportunities</p>
+          </div>
+          <a class="cert-link" href="mailto:afloperagra@gmail.com">Send Email ↗</a>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-icon" style="background:#0a66c2; border:1px solid rgba(255,255,255,0.1);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <p class="cert-issuer">LinkedIn</p>
+            <p class="cert-name">linkedin.com/in/andresloperagracia</p>
+            <p class="cert-meta">Connect · Message · View full profile</p>
+          </div>
+          <a class="cert-link" href="https://linkedin.com/in/andresloperagracia" target="_blank" rel="noopener noreferrer">Connect ↗</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>© 2026 Andres Lopera Gracia. All Rights Reserved.</div>
+    <div>BS Data Analytics — Missouri State University</div>
+  </footer>
+
+  <script>
+    function showPanel(id) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      const target = document.getElementById('panel-' + id);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.nav-links a, .mobile-nav a').forEach(a => {
+        a.classList.toggle('active', a.dataset.panel === id);
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      history.replaceState(null, null, '#' + id);
+      closeMobileNav();
+    }
+
+    function toggleMobileNav() {
+      const btn = document.getElementById('hamburger-btn');
+      const nav = document.getElementById('mobile-nav');
+      const isOpen = nav.classList.contains('open');
+      nav.classList.toggle('open');
+      btn.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(!isOpen));
+    }
+
+    function closeMobileNav() {
+      const btn = document.getElementById('hamburger-btn');
+      const nav = document.getElementById('mobile-nav');
+      nav.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+
+    // Intercept all nav link clicks
+    document.querySelectorAll('.nav-links a, .mobile-nav a').forEach(a => {
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        showPanel(this.dataset.panel);
+      });
+    });
+
+    // Nav logo click
+    document.querySelector('.nav-logo').addEventListener('click', function(e) {
+      e.preventDefault();
+      showPanel('home');
+    });
+
+    // Hire Me button in hero
+    document.querySelector('.btn-primary[data-panel]').addEventListener('click', function(e) {
+      e.preventDefault();
+      showPanel(this.dataset.panel);
+    });
+
+    // Hamburger toggle
+    document.getElementById('hamburger-btn').addEventListener('click', toggleMobileNav);
+
+    // Hash routing on load
+    window.addEventListener('DOMContentLoaded', () => {
+      const hash = window.location.hash.slice(1);
+      if (hash && document.getElementById('panel-' + hash)) {
+        showPanel(hash);
+      }
+    });
+
+    // Handle browser back/forward
+    window.addEventListener('popstate', () => {
+      const hash = window.location.hash.slice(1);
+      const target = hash && document.getElementById('panel-' + hash) ? hash : 'home';
+      showPanel(target);
+    });
+  </script>
+
+</body>
+</html>
